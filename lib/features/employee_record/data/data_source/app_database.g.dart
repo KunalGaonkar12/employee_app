@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `employee_data` (`id` INTEGER, `role` INTEGER NOT NULL, `name` TEXT NOT NULL, `fromDate` TEXT NOT NULL, `toDate` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `employee_data` (`id` INTEGER, `role` TEXT NOT NULL, `name` TEXT NOT NULL, `fromDate` TEXT NOT NULL, `toDate` TEXT, `type` INTEGER, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -109,10 +109,11 @@ class _$EmployeeDao extends EmployeeDao {
             'employee_data',
             (Employee item) => <String, Object?>{
                   'id': item.id,
-                  'role': item.role.index,
+                  'role': item.role,
                   'name': item.name,
                   'fromDate': item.fromDate,
-                  'toDate': item.toDate
+                  'toDate': item.toDate,
+                  'type': item.type?.index
                 }),
         _employeeUpdateAdapter = UpdateAdapter(
             database,
@@ -120,10 +121,11 @@ class _$EmployeeDao extends EmployeeDao {
             ['id'],
             (Employee item) => <String, Object?>{
                   'id': item.id,
-                  'role': item.role.index,
+                  'role': item.role,
                   'name': item.name,
                   'fromDate': item.fromDate,
-                  'toDate': item.toDate
+                  'toDate': item.toDate,
+                  'type': item.type?.index
                 }),
         _employeeDeletionAdapter = DeletionAdapter(
             database,
@@ -131,10 +133,11 @@ class _$EmployeeDao extends EmployeeDao {
             ['id'],
             (Employee item) => <String, Object?>{
                   'id': item.id,
-                  'role': item.role.index,
+                  'role': item.role,
                   'name': item.name,
                   'fromDate': item.fromDate,
-                  'toDate': item.toDate
+                  'toDate': item.toDate,
+                  'type': item.type?.index
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -154,7 +157,10 @@ class _$EmployeeDao extends EmployeeDao {
     return _queryAdapter.queryList('SELECT * FROM employee_data',
         mapper: (Map<String, Object?> row) => Employee(
             id: row['id'] as int?,
-            role: EmployeeRole.values[row['role'] as int],
+            type: row['type'] == null
+                ? null
+                : EmployeeType.values[row['type'] as int],
+            role: row['role'] as String,
             name: row['name'] as String,
             fromDate: row['fromDate'] as String,
             toDate: row['toDate'] as String?));

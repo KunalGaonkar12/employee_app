@@ -16,6 +16,16 @@ class EmployeeEventSave implements EmployeeEvent {
   }) : super();
 }
 
+//To add employee
+@immutable
+class EmployeeEventEdit implements EmployeeEvent {
+  final Employee employee;
+
+  const EmployeeEventEdit({
+    required this.employee,
+  }) : super();
+}
+
 //To delete employee
 @immutable
 class EmployeeEventDelete implements EmployeeEvent {
@@ -26,15 +36,33 @@ class EmployeeEventDelete implements EmployeeEvent {
   }) : super();
 }
 
+//To delete employee
+@immutable
+class EmployeeEventUndoDelete implements EmployeeEvent {
+  const EmployeeEventUndoDelete() : super();
+}
+
 //To go to add employee view
 @immutable
 class EmployeeEventGoToAdd implements EmployeeEvent {
-  const EmployeeEventGoToAdd();
+  final Employee? employee;
+  const EmployeeEventGoToAdd({this.employee});
 }
 
+//To go to add employee view
+@immutable
+class EmployeeEventGoToEmployeeList implements EmployeeEvent {
+  const EmployeeEventGoToEmployeeList():super();
+}
 
 //To set data from data base
 @immutable
 class EmployeeEventInitialize implements EmployeeEvent {
-  const EmployeeEventInitialize();
+  const EmployeeEventInitialize():super();
+}
+
+//To set data from data base
+@immutable
+class EmployeeEventSelectDate implements EmployeeEvent {
+  const EmployeeEventSelectDate():super();
 }

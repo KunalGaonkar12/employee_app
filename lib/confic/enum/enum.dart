@@ -1,22 +1,36 @@
-enum Status { saved, edited, deleted, unknown }
+enum Status {
+  saved,
+  edited,
+  deleted,
+  unknown,
+}
 
-enum EmployeeRole { productDesigner, flutterDeveloper, qaTester, productOwner }
+enum EmployeeRole {
+  productDesigner,
+  flutterDeveloper,
+  qaTester,
+  productOwner,
+}
+
+enum EmployeeType {
+  currentEmployee,
+  previousEmployee,
+}
 
 extension GetState on Status {
-  String? get message {
+  String get message {
     switch (this) {
       case Status.saved:
         return "Employee record saved";
       case Status.deleted:
-        return "Employee record deleted";
+        return "Employee data has been deleted";
       case Status.edited:
         return "Employee record Edited";
-      default:
-        return 'Unknown error occurred try again';
+      case Status.unknown:
+        return "Employee record Edited";
     }
   }
 }
-
 
 extension EmployeeRoleExtension on EmployeeRole {
   String get roleName {
@@ -32,4 +46,3 @@ extension EmployeeRoleExtension on EmployeeRole {
     }
   }
 }
-

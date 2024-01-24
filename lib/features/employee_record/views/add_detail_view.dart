@@ -10,57 +10,34 @@ import 'package:employee_app/utils/size_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../confic/colorpalette.dart';
-import '../../../confic/font/font.dart';
+import '../../../utils/colorpalette.dart';
+import '../../../utils/font/text_style_helper.dart';
 import '../data/model/employee.dart';
 
-class AddDetailsView extends HookWidget {
-  const AddDetailsView({Key? key}) : super(key: key);
+class AddDetailsView extends StatelessWidget {
+  AddDetailsView({Key? key}) : super(key: key);
+
+  final fromDateOption = [
+    'Today',
+    'Next Monday',
+    'Next Tuesday',
+    'After 1 Week'
+  ];
+  final toDateOption = ['No date', 'Today'];
 
   @override
   Widget build(BuildContext context) {
-    final employee = context.watch<EmployeeBloc>().state.employee;
-    print(employee);
-    final nameController = useTextEditingController(text: '');
-    final roleController = useTextEditingController(text: '');
-    final toDateController = useTextEditingController();
-    final fromDateController = useTextEditingController();
-
-    if (employee != null) {
-      nameController.text = employee.name;
-      roleController.text = employee.role;
-      fromDateController.text = employee.fromDate;
-      toDateController.text = employee.toDate ?? '';
-    }
-
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: _buildBody(
-        context,
-        nameController,
-        roleController,
-        toDateController,
-        fromDateController,
-      ),
-      floatingActionButton: _buildFloatingBottomBar(
-        context,
-        fromDateController,
-        toDateController,
-        nameController,
-        roleController,
-      ),
+      body: _buildBody(context),
+      floatingActionButton: _buildFloatingBottomBar(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
   _buildBody(
     BuildContext context,
-    TextEditingController nameController,
-    TextEditingController roleController,
-    TextEditingController toDateController,
-    TextEditingController fromDateController,
   ) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -70,7 +47,7 @@ class AddDetailsView extends HookWidget {
       child: Column(
         children: [
           CustomTextField(
-            controller: nameController,
+            controller: context.read<EmployeeBloc>().nameController,
             hintText: 'Employee name',
             prefixIconPath:
                 'assets/images/person_FILL0_wght300_GRAD0_opsz24 (2) 1.svg',
@@ -85,9 +62,9 @@ class AddDetailsView extends HookWidget {
               if (kDebugMode) {
                 print(role);
               }
-              roleController.text = role ?? '';
+              context.read<EmployeeBloc>().roleController.text = role ?? '';
             },
-            controller: roleController,
+            controller: context.read<EmployeeBloc>().roleController,
             hintText: 'Select role',
             prefixIconPath: 'assets/images/office_bag.svg',
             suffixIconPath: 'assets/images/arrow.svg',
@@ -95,8 +72,7 @@ class AddDetailsView extends HookWidget {
           SizedBox(
             height: 23.v,
           ),
-          _buildFrame(context, fromDateController, toDateController)
-
+          _buildFrame(context)
         ],
       ),
     );
@@ -139,10 +115,6 @@ class AddDetailsView extends HookWidget {
 
   Widget _buildFloatingBottomBar(
     BuildContext context,
-    TextEditingController fromDateController,
-    TextEditingController toDateController,
-    TextEditingController nameController,
-    TextEditingController roleController,
   ) {
     return Container(
       height: 64.v,
@@ -170,13 +142,7 @@ class AddDetailsView extends HookWidget {
             SizedBox(
               width: 16.h,
             ),
-            _buildSave(
-              context,
-              fromDateController,
-              toDateController,
-              nameController,
-              roleController,
-            ),
+            _buildSave(context),
           ],
         ),
       ),
@@ -185,8 +151,6 @@ class AddDetailsView extends HookWidget {
 
   Widget _buildFrame(
     BuildContext context,
-    TextEditingController fromDateController,
-    TextEditingController toDateController,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,13 +158,19 @@ class AddDetailsView extends HookWidget {
         CustomTextField(
           onlyRead: true,
           width: 172.h,
-          controller: fromDateController,
+          controller: context.read<EmployeeBloc>().fromDateController,
           hintText: 'Today',
           prefixIconPath: 'assets/images/event.svg',
-          onTap: (){
-            showDialog(context: context, builder: (context){
-              return DatePickerCalendar();
-            });
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return DatePickerCalendar(
+                    options: fromDateOption,
+                    selectedDate:
+                        context.read<EmployeeBloc>().fromDateController.text,
+                  );
+                });
           },
         ),
         SvgPicture.asset(
@@ -211,9 +181,20 @@ class AddDetailsView extends HookWidget {
         CustomTextField(
           onlyRead: true,
           width: 172.h,
-          controller: toDateController,
+          controller: context.read<EmployeeBloc>().toDateController,
           hintText: 'No date',
           prefixIconPath: 'assets/images/event.svg',
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return DatePickerCalendar(
+                    options: toDateOption,
+                    selectedDate:
+                        context.read<EmployeeBloc>().toDateController.text,
+                  );
+                });
+          },
         ),
       ],
     );
@@ -233,10 +214,6 @@ class AddDetailsView extends HookWidget {
 
   Widget _buildSave(
     BuildContext context,
-    TextEditingController fromDateController,
-    TextEditingController toDateController,
-    TextEditingController nameController,
-    TextEditingController roleController,
   ) {
     return CustomElevatedButton(
       width: 73.h,
@@ -246,11 +223,11 @@ class AddDetailsView extends HookWidget {
         context.read<EmployeeBloc>().add(
               EmployeeEventSave(
                 employee: Employee(
-                  name: nameController.text,
-                  role: roleController.text,
-                  fromDate: '22-01-2023',
-                  // toDate: '22-01-2023',
-                ),
+                    name: context.read<EmployeeBloc>().nameController.text,
+                    role: context.read<EmployeeBloc>().roleController.text,
+                    fromDate:
+                        context.read<EmployeeBloc>().fromDateController.text,
+                    toDate: context.read<EmployeeBloc>().toDateController.text),
               ),
             );
       },

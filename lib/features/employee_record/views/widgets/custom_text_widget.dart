@@ -1,8 +1,8 @@
-import 'package:employee_app/confic/font/font.dart';
+import '../../../../utils/font/text_style_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../confic/colorpalette.dart';
+import '../../../../utils/colorpalette.dart';
 import '../../../../utils/size_utils.dart';
 
 class CustomTextField extends StatelessWidget {

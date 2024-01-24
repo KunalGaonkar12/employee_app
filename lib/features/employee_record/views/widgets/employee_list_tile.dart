@@ -1,6 +1,5 @@
-import 'package:employee_app/confic/colorpalette.dart';
-import 'package:employee_app/confic/enum/enum.dart';
-import 'package:employee_app/confic/font/font.dart';
+import 'package:employee_app/utils/colorpalette.dart';
+import '../../../../utils/font/text_style_helper.dart';
 import 'package:employee_app/features/employee_record/data/model/employee.dart';
 import 'package:employee_app/utils/size_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -75,7 +74,7 @@ class EmployeeListTile extends StatelessWidget {
                     height: 6.v,
                   ),
                   Text(
-                    'From ${employee.fromDate} - To ${employee.toDate}',
+                    '${employee.fromDate}${employee.toDate!.isNotEmpty?' - ${employee.toDate}':''}',
                     softWrap: true,
                     style: RobotoFonts.regular(
                         fontSize: 12.v, color: ColorPalette.lightTextColor),

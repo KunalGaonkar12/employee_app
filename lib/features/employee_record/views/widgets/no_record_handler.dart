@@ -1,21 +1,9 @@
-import 'package:employee_app/confic/colorpalette.dart';
-import 'package:employee_app/confic/constants.dart';
-import 'package:employee_app/confic/font/font.dart';
+import 'package:employee_app/utils/colorpalette.dart';
+import '../../../../utils/font/text_style_helper.dart';
 import 'package:employee_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-extension IntExtension on int {
-  double get heightPx => designHeight / this;
-
-  double get widthPx => designWidth / this;
-}
-
-extension DoubleExtension on double {
-  double get heightPx => designHeight / this;
-
-  double get widthPx => designWidth / this;
-}
 
 class NoRecordHandler extends StatelessWidget {
   const NoRecordHandler({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
-import 'package:employee_app/confic/colorpalette.dart';
-import 'package:employee_app/confic/font/font.dart';
+import 'package:employee_app/utils/colorpalette.dart';
+import '../../../../utils/font/text_style_helper.dart';
 import 'package:employee_app/features/employee_record/bloc/employee_bloc.dart';
 import 'package:employee_app/features/employee_record/bloc/employee_event.dart';
 import 'package:employee_app/features/employee_record/views/widgets/employee_list_tile.dart';

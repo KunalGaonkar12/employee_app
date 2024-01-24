@@ -1,8 +1,9 @@
-import 'package:employee_app/confic/colorpalette.dart';
+import 'package:employee_app/utils/colorpalette.dart';
 import 'package:employee_app/confic/enum/enum.dart';
-import 'package:employee_app/confic/font/font.dart';
 import 'package:employee_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../utils/font/text_style_helper.dart';
 
 Future<String?> openBottomSheet(
     BuildContext context, List<EmployeeRole> itemList) {
@@ -28,6 +29,7 @@ Future<String?> openBottomSheet(
                 },
                 child: Container(
                   height: 52.v,
+                  color: Colors.transparent,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.h,

@@ -36,7 +36,7 @@ class EmployeeEventDelete implements EmployeeEvent {
   }) : super();
 }
 
-//To delete employee
+//To undo deleted employee
 @immutable
 class EmployeeEventUndoDelete implements EmployeeEvent {
   const EmployeeEventUndoDelete() : super();
@@ -49,7 +49,7 @@ class EmployeeEventGoToAdd implements EmployeeEvent {
   const EmployeeEventGoToAdd({this.employee});
 }
 
-//To go to add employee view
+//To go to Employee list view
 @immutable
 class EmployeeEventGoToEmployeeList implements EmployeeEvent {
   const EmployeeEventGoToEmployeeList():super();
@@ -61,8 +61,24 @@ class EmployeeEventInitialize implements EmployeeEvent {
   const EmployeeEventInitialize():super();
 }
 
-//To set data from data base
+//To get selected date
 @immutable
 class EmployeeEventSelectDate implements EmployeeEvent {
   const EmployeeEventSelectDate():super();
 }
+
+//To set date when calendar option is selected
+@immutable
+class EmployeeEventSelectOption implements EmployeeEvent {
+  final String selectedOption;
+  const EmployeeEventSelectOption(this.selectedOption):super();
+}
+
+//To open calendar
+@immutable
+class EmployeeEventOpenCalendar implements EmployeeEvent {
+  final String selectedDate;
+  final int length;
+  const EmployeeEventOpenCalendar({required this.selectedDate,required this.length}):super();
+}
+

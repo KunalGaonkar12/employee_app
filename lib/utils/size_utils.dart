@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const num FIGMA_DESIGN_WIDTH = 428;
 const num FIGMA_DESIGN_HEIGHT = 926;
 const num FIGMA_DESIGN_STATUS_BAR = 0;
+
 typedef ResponsiveBuild = Widget Function(
   BuildContext context,
   Orientation orientation,
@@ -15,7 +16,6 @@ class Sizer extends StatelessWidget {
     Key? key,
     required this.builder,
   }) : super(key: key);
-
 
   final ResponsiveBuild builder;
 
@@ -31,18 +31,13 @@ class Sizer extends StatelessWidget {
 }
 
 class SizeUtils {
-
   static late BoxConstraints boxConstraints;
-
 
   static late Orientation orientation;
 
-
   static late DeviceType deviceType;
 
-
   static late double height;
-
 
   static late double width;
 
@@ -50,10 +45,8 @@ class SizeUtils {
     BoxConstraints constraints,
     Orientation currentOrientation,
   ) {
-
     boxConstraints = constraints;
     orientation = currentOrientation;
-
 
     if (orientation == Orientation.portrait) {
       width =
@@ -68,30 +61,15 @@ class SizeUtils {
   }
 }
 
-
 extension ResponsiveExtension on num {
-
   double get _width => SizeUtils.width;
-
 
   double get _height => SizeUtils.height;
 
-
   double get h => ((this * _width) / FIGMA_DESIGN_WIDTH);
-
 
   double get v =>
       (this * _height) / (FIGMA_DESIGN_HEIGHT - FIGMA_DESIGN_STATUS_BAR);
-
-
-  double get adaptSize {
-    var height = v;
-    var width = h;
-    return height < width ? height.toDoubleValue() : width.toDoubleValue();
-  }
-
-
-  double get fSize => adaptSize;
 }
 
 extension FormatExtension on double {

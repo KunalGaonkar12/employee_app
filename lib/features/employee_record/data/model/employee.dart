@@ -8,7 +8,7 @@ class Employee {
   int? id;
   final String role;
   final String name;
-  final String fromDate;
+  String fromDate;
   final String? toDate;
   EmployeeType? type;
 

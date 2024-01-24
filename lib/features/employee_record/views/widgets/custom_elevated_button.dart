@@ -1,5 +1,5 @@
-import 'package:employee_app/confic/colorpalette.dart';
-import 'package:employee_app/confic/font/font.dart';
+import 'package:employee_app/utils/colorpalette.dart';
+import '../../../../utils/font/text_style_helper.dart';
 import 'package:employee_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +12,11 @@ class CustomElevatedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? textColor;
   final double? radious;
+  final TextStyle? style;
 
   const CustomElevatedButton({
     required this.width,
+    this.style,
     this.backgroundColor,
     this.radious,
     this.textColor,
@@ -28,29 +30,24 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: height,
-      // width: width,
       alignment: Alignment.center,
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(radious??6.h),
-      //   color: backgroundColor ?? ColorPalette.lightBlue,
-      // ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: Size(width, height),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radious??6.h), // Adjust the radius as needed
+            borderRadius: BorderRadius.circular(
+                radious ?? 6.h),
           ),
           backgroundColor: backgroundColor ?? ColorPalette.lightBlue,
-          disabledBackgroundColor: backgroundColor ?? ColorPalette.lightBlue,
           elevation: 0,
           padding: EdgeInsets.symmetric(horizontal: 12.h),
         ),
         child: Text(
           text,
-          style: RobotoFonts.medium(
-              fontSize: 14.v, color: textColor ?? Colors.white),
+          style: style ??
+              RobotoFonts.medium(
+                  fontSize: 14.v, color: textColor ?? Colors.white),
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:employee_app/features/employee_record/data/model/employee.dart';
 import 'package:flutter/foundation.dart' show immutable;
-
-import '../../../confic/enum/enum.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 abstract class EmployeeState {
@@ -41,11 +40,17 @@ class EmployeeStateSaving extends EmployeeState {
 @immutable
 class EmployeeStateIsInAddDetailView extends EmployeeState {
   final Employee? employee;
-  DateTime? selectedToDate;
+  final String? selectedType;
+  DateTime? selectedDate;
+  String? selectedOption;
+  String errorMessage;
 
-   EmployeeStateIsInAddDetailView({
+  EmployeeStateIsInAddDetailView({
     this.employee,
-     this.selectedToDate,
+    this.selectedDate,
+    this.selectedType,
+    this.selectedOption,
+    this.errorMessage = '',
     required bool isProcessing,
   }) : super(
           isProcessing: isProcessing,
@@ -97,26 +102,27 @@ extension GetEmployeeToEdit on EmployeeState {
 }
 
 extension GetDate on EmployeeState {
-  DateTime? get toDate {
+  String? get selectedOption {
     final cls = this;
     if (cls is EmployeeStateIsInAddDetailView) {
-      return cls.selectedToDate;
-    } else {
-      return null;
-    }
-  }
-  DateTime? get fromDate {
-    final cls = this;
-    if (cls is EmployeeStateIsInAddDetailView) {
-      return cls.selectedToDate;
+      return cls.selectedOption;
     } else {
       return null;
     }
   }
 
-  void setToDate(DateTime newDate) {
+  DateTime? get selectedDate {
+    final cls = this;
+    if (cls is EmployeeStateIsInAddDetailView) {
+      return cls.selectedDate;
+    } else {
+      return null;
+    }
+  }
+
+  void setSelectedDate(DateTime? newDate) {
     if (this is EmployeeStateIsInAddDetailView) {
-      (this as EmployeeStateIsInAddDetailView).selectedToDate = newDate;
+      (this as EmployeeStateIsInAddDetailView).selectedDate = newDate;
     }
   }
 }

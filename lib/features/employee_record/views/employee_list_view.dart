@@ -1,14 +1,13 @@
-import 'package:employee_app/confic/colorpalette.dart';
-import 'package:employee_app/confic/font/font.dart';
+import 'package:employee_app/utils/colorpalette.dart';
 import 'package:employee_app/features/employee_record/bloc/employee_bloc.dart';
 import 'package:employee_app/features/employee_record/bloc/employee_event.dart';
 import 'package:employee_app/features/employee_record/bloc/employee_state.dart';
 import 'package:employee_app/features/employee_record/views/widgets/employee_list_section.dart';
 import 'package:employee_app/features/employee_record/views/widgets/no_record_handler.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../utils/font/text_style_helper.dart';
 import '../../../utils/size_utils.dart';
 
 class EmployeeListView extends StatelessWidget {
@@ -18,11 +17,6 @@ class EmployeeListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print('Screen Height :${SizeUtils.height}');
-      print('Screen Width :${SizeUtils.width}');
-    }
-
     final currentEmployees =
         context.watch<EmployeeBloc>().state.currentEmp ?? [];
     final previousEmployees =
@@ -31,7 +25,6 @@ class EmployeeListView extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(context),
       backgroundColor: ColorPalette.lightGrey,
-      // backgroundColor: Colors.black,
       body: (currentEmployees.isNotEmpty || previousEmployees.isNotEmpty)
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -96,12 +89,12 @@ class EmployeeListView extends StatelessWidget {
 
   _buildFloatingActionButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 24.v,right: 8.h),
+      margin: EdgeInsets.only(bottom: 24.v, right: 8.h),
       height: 50.v,
       width: 50.v,
       child: FloatingActionButton(
         onPressed: () {
-          context.read<EmployeeBloc>().add(const  EmployeeEventGoToAdd());
+          context.read<EmployeeBloc>().add(const EmployeeEventGoToAdd());
         },
         backgroundColor: Colors.blue,
         elevation: 0,
